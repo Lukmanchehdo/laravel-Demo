@@ -69,7 +69,7 @@ class UrlController extends Controller
         //return redirect('url/create')->withInput();
         return back()->with([
             'success'  => 'บันทึกเรียบร้อย',
-            'shorturl' => route('shorturl.redirect',$model_url->code)
+            'shorturl' => route('shorturl.redirect', $model_url->code)
         ]);
     }
 
@@ -120,6 +120,14 @@ class UrlController extends Controller
 
     public function redirect($code)
     {
-        dd($code);
+        //ค้นหา code ใน DB
+        $model_url = Url::query()
+            ->where('code', $code)
+            ->firstOrFail();
+        //เพิ่มค่า count
+        $model_url->increment('count');
+        $model_url->save();
+        //return redirect($model_url->url);
+        return redirect()->away($model_url->url, 301);
     }
 }
