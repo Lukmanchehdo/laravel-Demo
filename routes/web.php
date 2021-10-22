@@ -20,6 +20,9 @@ Route::get('/', function () {
 
 Route::resource('url', UrlController::class);
 
+Route::get('/{code}', [UrlController::class, 'redirect'])
+    ->name('shorturl.redirect');
+
 /*Route::get('url',[UrlController::class,'index'])->name('url.index');
 Route::post('url',[UrlController::class,'store'])->name('url.store');
 Route::get('url/create',[UrlController::class,'create'])->name('url.create');*/
